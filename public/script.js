@@ -1,24 +1,27 @@
+let craftsData = []; // This will hold the fetched crafts data
+
 document.addEventListener('DOMContentLoaded', () => {
     fetch('/api/crafts')
         .then(response => response.json())
         .then(crafts => {
+            craftsData = crafts; // Store the fetched data in the global variable
             const craftsContainer = document.getElementById('crafts');
-            crafts.forEach(craft => {
+            crafts.forEach((craft, index) => {
                 const html = `
                     <div class="w3-quarter">
-                        <img src="/crafts/${craft.image}" onclick="showModal('${craft.name}')" style="width:100%;cursor:pointer" alt="${craft.name}">
+                        <img src="/crafts/${craft.image}" onclick="showModal(${index})" style="width:100%;cursor:pointer" alt="${craft.name}">
                     </div>
                 `;
                 craftsContainer.innerHTML += html;
-            });            
+            });
         });
 
     const modal = document.getElementById("craftModal");
     const span = document.getElementsByClassName("close")[0];
 
-    window.showModal = (craftName) => {
-        const craft = crafts.find(c => c.name === craftName);
-        document.getElementById('craftImage').src = craft.image;
+    window.showModal = (index) => {
+        const craft = craftsData[index]; // Use index to get the correct craft
+        document.getElementById('craftImage').src = `/crafts/${craft.image}`;
         document.getElementById('craftInfo').innerHTML = `
             <h1>${craft.name}</h1>
             <p>${craft.description}</p>

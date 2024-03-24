@@ -271,6 +271,6 @@ app.get("/api/crafts", (req, res) => {
     res.send(crafts);
 });
 
-app.listen(3000, () => {
+app.listen(3001, () => {
     console.log("Im listening");
 });
